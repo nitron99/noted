@@ -1,0 +1,92 @@
+.signup-container {
+  width: 100%;
+  height: 100vh;
+  min-height: 300px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.signup-navbar {
+  width: 80vw;
+  min-height: 10rem;
+  font-size: 4rem;
+  font-family: "Permanent Marker", cursive;
+  margin: auto;
+
+  min-width: 200px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.signup-form-container {
+  width: 100%;
+  height: 100%;
+
+  font-weight: 700;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-form {
+  font-family: "Nunito", sans-serif;
+
+  max-width: 400px;
+  width: 400px;
+  height: 400px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 20px;
+
+  font-size: 2.5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 1px 1px 20px #aaaaaa;
+}
+
+.signup-input {
+  width: 100%;
+  height: 60px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.signup-btn-panel {
+  display: flex;
+  justify-content: space-between;
+}
+
+.email,
+.password {
+  width: 90%;
+  height: 40px;
+  font-size: 2rem;
+  font-family: "Nunito", sans-serif;
+  border-radius: 15px;
+  background-color: #efefef;
+  padding-left: 10px;
+  border-style: none;
+}
+
+.signup-btn {
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 50%;
+
+  border-radius: 15px;
+  border-style: none;
+
+  font-size: 1.5rem;
+  font-family: "Nunito", sans-serif;
+}
