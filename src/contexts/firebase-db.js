@@ -32,6 +32,7 @@ export function DbProvider({children}) {
     const db = getDatabase();
     setCurrentNoteID(noteId);
     console.log(db);
+    // eslint-disable-next-line no-useless-concat
     const createnote = ref(db, 'users/' + "user-" + currentUser.uid + '/notes/' + noteId);
     set(createnote, {
       data: "",
@@ -49,6 +50,7 @@ export function DbProvider({children}) {
   const readDashboardNoteList = async () => {
     setDashboardNoteList([]);
     const dbRef = ref(getDatabase());
+    // eslint-disable-next-line no-useless-concat
     get(child(dbRef, 'users/' + "user-"+ currentUser.uid + '/notes/'))
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -74,6 +76,7 @@ export function DbProvider({children}) {
     const db = getDatabase();
   
     if(currentNoteID !== null && currentUser.uid !== null){
+      // eslint-disable-next-line no-useless-concat
       const newPostRef = ref(db, 'users/' + "user-" + currentUser.uid + '/notes/' + noteId);
       set(newPostRef, {
         data: sendData,
@@ -95,6 +98,7 @@ export function DbProvider({children}) {
     setNoteData({});
     setOlddata(true);
     const dbRef = ref(getDatabase());
+    // eslint-disable-next-line no-useless-concat
     get(child(dbRef, 'users/' + "user-"+ currentUser.uid + '/notes/'))
       .then((snapshot) => {
         if(snapshot.exists()) {
@@ -118,6 +122,7 @@ export function DbProvider({children}) {
     console.log(noteId);
     const db = getDatabase();
     if(currentNoteID !== null && currentUser.uid !== null){
+      // eslint-disable-next-line no-useless-concat
       const deleteNoteRef = ref(db, 'users/' + "user-" + currentUser.uid + '/notes/' + noteId);
       remove(deleteNoteRef)
         .then(() => {
