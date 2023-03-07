@@ -1,15 +1,17 @@
-import React from 'react'
-import './card.css'
+import React from 'react';
+import './card.css';
 
-function Card({data , click}) {
+const Card = ({data , click}) => {
 
   const handle = () => {
-      click(data)
+    click(data)
   }
 
   return (
-    <div className='dashboard-card' onClick={() => {handle()}}>{data}</div>
+    <div className='dashboard-card' onClick={() => {handle()}}>
+      {data}
+    </div>
   )
 }
 
-export default Card
+export default Card;
