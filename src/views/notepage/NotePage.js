@@ -8,7 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 import './styles.css';
 
-const Note = () => {
+const NotePage = () => {
   const { currentUser } = useAuth();
   const { 
     writeNote, 
@@ -114,4 +114,4 @@ const Note = () => {
   )
 }
 
-export default Note
+export default NotePage;
