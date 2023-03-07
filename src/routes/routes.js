@@ -9,7 +9,7 @@ import Home from '../views/homePage/Home';
 import Signup from '../views/signupPage/Signup';
 import Login from '../views/loginPage/Login';
 import Dashboard from '../views/dashboardPage/Dashboard';
-import Note from '../views/notePage/NotePage';
+import NotePage from '../views/notePage/NotePage';
 
 const routes = () => (
   <Router>
@@ -21,7 +21,7 @@ const routes = () => (
       </Route>
       <Route path="/" element={<ProtectedRoutes/>} >
         <Route path="/dashboard" element={<Dashboard />}/>
-        <Route path="/dashboard/:id" element={<Note />}/>
+        <Route path="/dashboard/:id" element={<NotePage />}/>
       </Route>
     </Routes>
   </Router>
