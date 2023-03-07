@@ -3,8 +3,8 @@ import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 
 // contexts
-import { useDB } from '../../contexts/firebase-db';
-import { useAuth } from '../../contexts/AuthContext';
+import { useDB } from '../src/contexts/firebase-db';
+import { useAuth } from '../src/contexts/AuthContext';
 
 import './styles.css';
 
