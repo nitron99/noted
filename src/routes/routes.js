@@ -9,7 +9,7 @@ import Home from '../views/homePage/Home';
 import Signup from '../views/signupPage/Signup';
 import Login from '../views/loginPage/Login';
 import Dashboard from '../views/dashboardPage/Dashboard';
-import NotePage from '../views/notePage/NotePage';
+import NotePage from '../views/note/NotePage';
 
 const routes = () => (
   <Router>
