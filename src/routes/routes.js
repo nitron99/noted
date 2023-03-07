@@ -5,7 +5,7 @@ import ProtectedRoutes from './protectedRoutes';
 import PublicRoutes from './publicRoutes';
 
 // routes
-import NotePage from '../views/notePage/NotePage';
+// import NotePage from '../views/notePage/NotePage';
 import Home from '../views/homePage/Home';
 import Signup from '../views/signupPage/Signup';
 import Login from '../views/loginPage/Login';
@@ -21,7 +21,7 @@ const routes = () => (
       </Route>
       <Route path="/" element={<ProtectedRoutes/>} >
         <Route path="/dashboard" element={<Dashboard />}/>
-        <Route path="/dashboard/:id" element={<NotePage />}/>
+        {/* <Route path="/dashboard/:id" element={<NotePage />}/> */}
       </Route>
     </Routes>
   </Router>
