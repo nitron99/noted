@@ -5,11 +5,11 @@ import ProtectedRoutes from './protectedRoutes';
 import PublicRoutes from './publicRoutes';
 
 // routes
+import NotePage from '../views/notePage/NotePage';
 import Home from '../views/homePage/Home';
 import Signup from '../views/signupPage/Signup';
 import Login from '../views/loginPage/Login';
 import Dashboard from '../views/dashboardPage/Dashboard';
-import NotePage from '../views/notePage/NotePage';
 
 const routes = () => (
   <Router>
