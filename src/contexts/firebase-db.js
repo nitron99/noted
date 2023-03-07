@@ -1,13 +1,12 @@
 import React, { useContext , useState, createContext } from 'react';
-import uuid from 'react-uuid';
-
 import { useAuth } from './AuthContext';
 import { 
   getDatabase, 
   ref, 
   set, 
   get, 
-  child 
+  child,
+  remove
 } from "firebase/database";
 
 const DbContext = createContext();
@@ -20,88 +19,87 @@ export function DbProvider({children}) {
   const [currentNoteID, setCurrentNoteID] = useState("");
   const [dashboardNoteList, setDashboardNoteList] = useState([]);
   const [noteData, setNoteData] = useState({});
-
   const [olddata, setOlddata] = useState(false);
 
-  const {currentUser} = useAuth();
+  const { currentUser } = useAuth();
 
   function resetNoteData(){
-      setNoteData({})
+    setNoteData({})
   }
 
-  function createNote(noteid){
+  // ---------------------------- GET: CREATE NOTE ------------------------------
+  function createNote(noteId){
     const db = getDatabase();
-    setCurrentNoteID(noteid);
-    const createnote = ref(db, 'users/' + "user-" + currentUser.uid + '/notes/' + noteid);
+    setCurrentNoteID(noteId);
+    console.log(db);
+    const createnote = ref(db, 'users/' + "user-" + currentUser.uid + '/notes/' + noteId);
     set(createnote, {
       data: "",
-      name : noteid
+      name : noteId
     })
       .then(() => {
         console.log('note created successfully!') ;
       })
       .catch((error) => {
-        console.log('The note create failed...') ;
+        console.log('The note create failed...', error) ;
       });
   }
 
-  const readDashboardNoteList = async () =>{
+  // ---------------------------- GET: GET NOTES LIST FOR DASHBOARD -------------
+  const readDashboardNoteList = async () => {
     setDashboardNoteList([]);
     const dbRef = ref(getDatabase());
     get(child(dbRef, 'users/' + "user-"+ currentUser.uid + '/notes/'))
       .then((snapshot) => {
         if (snapshot.exists()) {
           snapshot.forEach((childsnapshot) => {
-            console.log(childsnapshot.val());
-            setDashboardNoteList( dashboardData => dashboardData.concat(childsnapshot.val().name));
+            // console.log(childsnapshot.val());
+            setDashboardNoteList(dashboardData => dashboardData.concat(childsnapshot.val()));
           });
         } else {
           console.log("No data available");
         }
       })
       .catch((error) => {
-          console.error(error);
+        console.error(error);
       });
   }
 
-  function retreiveNoteID(senddata) {
-    let noteid = window.location.pathname.slice(11)
-    setCurrentNoteID(noteid)
-    console.log("-")
-    writeNote(senddata, noteid)
-  }
+  // ---------------------------- POST: WRITE NOTE ------------------------------
+  function writeNote(sendData){
+    let noteId = window.location.pathname.slice(11)
+    console.log(noteId)
+    setCurrentNoteID(noteId);
 
-  function writeNote(senddata, noteid){
-    console.log(noteid)
     const db = getDatabase();
-            
+  
     if(currentNoteID !== null && currentUser.uid !== null){
-      const newPostRef = ref(db, 'users/' + "user-" + currentUser.uid + '/notes/' + noteid);
+      const newPostRef = ref(db, 'users/' + "user-" + currentUser.uid + '/notes/' + noteId);
       set(newPostRef, {
-        data: senddata,
-        name: noteid
+        data: sendData,
+        name: noteId
       })
-      .then(() => {
-        console.log('Data saved successfully!') ;
-      })
-      .catch((error) => {
-        console.log('The write failed...') ;
-      });
+        .then(() => {
+          console.log('Data saved successfully!') ;
+        })
+        .catch((error) => {
+          console.log('The write failed...') ;
+        });
     }else{
       console.log("error - user not login in")
     }
   }
 
-  async function retreiveNote(noteid){
-    setNoteData({})
-    setOlddata(true)
+  // ---------------------------- GET: GET SPECIFICE NOTE -----------------------
+  async function retreiveNote(noteId){
+    setNoteData({});
+    setOlddata(true);
     const dbRef = ref(getDatabase());
     get(child(dbRef, 'users/' + "user-"+ currentUser.uid + '/notes/'))
       .then((snapshot) => {
         if(snapshot.exists()) {
           snapshot.forEach((childsnapshot) => {
-              //console.log(childsnapshot.key);
-            if(childsnapshot.key === noteid) {
+            if(childsnapshot.key === noteId) {
               setNoteData(childsnapshot.val().data); 
               console.log(childsnapshot.val().data)
             }
@@ -114,20 +112,40 @@ export function DbProvider({children}) {
         console.error(error);
       });
   }
-  
+
+  // ---------------------------- DELETE: DELETE NOTE ---------------------------
+  async function deleteNote (noteId) {
+    console.log(noteId);
+    const db = getDatabase();
+    if(currentNoteID !== null && currentUser.uid !== null){
+      const deleteNoteRef = ref(db, 'users/' + "user-" + currentUser.uid + '/notes/' + noteId);
+      remove(deleteNoteRef)
+        .then(() => {
+          console.log('Data Deleted successfully!');
+        })
+        .catch((error) => {
+          console.log('delet failed...') ;
+        });
+    }else{
+      console.log("error - user not login in")
+    }
+
+    // refresh Dashboard list
+    readDashboardNoteList();
+  }
   
   const database = {
-      currentNoteID,
-      dashboardNoteList,
-      noteData,
-      olddata,
-      setOlddata,
-      writeNote,
-      retreiveNoteID,
-      readDashboardNoteList,
-      createNote,
-      resetNoteData,
-      retreiveNote
+    currentNoteID,
+    dashboardNoteList,
+    noteData,
+    olddata,
+    setOlddata,
+    writeNote,
+    readDashboardNoteList,
+    createNote,
+    resetNoteData,
+    retreiveNote,
+    deleteNote
   }
 
   return (

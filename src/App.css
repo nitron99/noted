@@ -6,3 +6,10 @@
 * {
   box-sizing: border-box;
 }
+
+.version__txt{
+  position: absolute;
+  z-index: 2;
+  bottom: 5px;
+  right: 10px;
+}

@@ -4,8 +4,6 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
   signOut,
-  GoogleAuthProvider, 
-  signInWithPopup  
 } from 'firebase/auth';
 
 const AuthContext = createContext();
@@ -19,54 +17,34 @@ export function AuthProvider({children}) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      console.log(user)
+      if(user) localStorage.setItem("auth", JSON.stringify(user));
       setCurrentUser(user)
     })
     return unsubscribe;
   }, [])
 
-  // function googleAuth(){
-  //     const provider = new GoogleAuthProvider();
-  //     signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //         // This gives you a Google Access Token. You can use it to access the Google API.
-  //         const credential = GoogleAuthProvider.credentialFromResult(result);
-  //         const token = credential.accessToken;
-  //         // The signed-in user info.
-  //         const user = result.user;
-  //         // ...
-  //     }).catch((error) => {
-  //         // Handle Errors here.
-  //         const errorCode = error.code;
-  //         const errorMessage = error.message;
-  //         // The email of the user's account used.
-  //         const email = error.email;
-  //         // The AuthCredential type that was used.
-  //         const credential = GoogleAuthProvider.credentialFromError(error);
-  //         // ...
-  //     });
-  // }
-
   function signup(email,password){   
     // createUserWithEmailAndPassword returns no user
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-          console.log("singup")
-          setCurrentUser(userCredential.user)
+        console.log("singup")
+        setCurrentUser(userCredential.user)
       })
       .catch((error) => {
-          console.log("error")
+        console.log("error")
       });
   }
 
   function login(email,password){
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-          console.log("Log in")
-          setCurrentUser(userCredential.user)
+        console.log("Log in")
+        console.log(userCredential)
+        localStorage.setItem("auth", JSON.stringify(userCredential.user));
+        setCurrentUser(userCredential.user);
       })
       .catch((error) => {
-          console.log("Login error")
+        console.log("Login error")
       });
   }
 
@@ -74,8 +52,10 @@ export function AuthProvider({children}) {
     signOut(auth).then(() => {
       // Sign-out successful.
       console.log("sign out successfully")
+      localStorage.clear();
     }).catch((error) => {
       // An error happened.
+      console.log("something went wrong", error);
     });
   }
   

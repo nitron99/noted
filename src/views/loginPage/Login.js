@@ -6,32 +6,19 @@ import { useAuth } from  '../../contexts/AuthContext';
 import './styles.css';
 
 const Login = () => {
-  const { 
-    currentUser, 
-    login 
-  } = useAuth();
-
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
-  console.log("login page");
-
   function submitHandler(e) {
     e.preventDefault()
-
     //check the condition of email and password
     //signupHanlder(email,password)
-    if(password.length >=  6)
-    {
+    if(password.length >=  6){
       loginHanlder(email,password)
     }else{
       //password short error
     }
-  }
-
-  const googlesignupHandler = () => {
-
   }
 
   const loginHanlder = (email,password) => {
@@ -53,9 +40,8 @@ const Login = () => {
           <div className='login-input'>
             <input className='password' placeholder='password' type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
           </div>
-          <div className='login-input login-btn-panel'>
-            <button className='login-btn '>Login</button>
-            
+          <div className='login-btn-panel'>
+            <button className='login-btn'>Login</button>
           </div>
         </form>
       </div>

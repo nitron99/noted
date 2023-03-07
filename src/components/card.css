@@ -1,9 +1,11 @@
 .dashboard-card {
   max-width: 300px;
-  min-height: 180px;
+  min-height: 120px;
 
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
 
   border-radius: 20px;
   border-style: solid;
@@ -15,6 +17,7 @@
   padding: 20px;
   font-size: 20px;
   font-family: "Nunito", sans-serif;
+  font-weight: 600;
 
   cursor: pointer;
 }

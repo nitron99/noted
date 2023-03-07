@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import uuid from 'react-uuid';
 
 import Card from '../../components/card';
@@ -11,47 +11,49 @@ import { useAuth } from '../../contexts/AuthContext';
 import './styles.css';
 
 const Dashboard = () => {
-    const navigate = useNavigate();
-    const {
-      dashboardNoteList, 
-      readDashboardNoteList, 
-      createNote,
-      retreiveNote, 
-      resetNoteData, 
-      noteData
-    } = useDB();
-    const { currentUser } = useAuth();
-    const [edit, setEdit] = useState(false);
-      
-    useEffect(() => {
-      let isSubscribed = true;
-      if(isSubscribed) readDashboardNoteList()
-      return () => (isSubscribed = false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser]);
+  const navigate = useNavigate();
+  const {
+    dashboardNoteList, 
+    readDashboardNoteList, 
+    createNote,
+    retreiveNote, 
+    resetNoteData, 
+    noteData,
+    deleteNote
+  } = useDB();
+  const { currentUser, logout } = useAuth();
+  const [edit, setEdit] = useState(false);
+    
+  useEffect(() => {
+    readDashboardNoteList()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
-    useEffect(() => {
-      let isSubscribed = true;
-      if(isSubscribed) setEdit(true)
-      return () => (isSubscribed = false)
-    }, [noteData]);
+  useEffect(() => {
+    setEdit(true)
+  }, [noteData]);
 
-    function generateapage(){
-        const temp = uuid();
-        createNote(temp)
-        resetNoteData()
-        navigate(`/dashboard/${temp}`)
-    }
+  const handleGenerateNote = () => {
+    let id = uuid();
+    createNote(id);
+    resetNoteData();
+    navigate(`/dashboard/${id}`)
+  }
 
-    const clicked = (e) => {
-      //let redirect = JSON.stringify(e).slice(10)
-      retreiveNote(e).then(()=>{
-        console.log("work complete")
-        console.log(noteData)
-        if(edit) navigate(`/dashboard/${e}`);
-      })  
-    }
-  
+  const handleNoteOpen = (id) => {
+    //let redirect = JSON.stringify(e).slice(10)
+    retreiveNote(id).then(()=>{
+      console.log("work complete");
+      console.log(noteData);
+      if(edit) navigate(`/dashboard/${id}`);
+    })  
+  }
+
+  const handleDelete = (id) => {
+    deleteNote(id).then(() => {
+      console.log("done");
+    })
+  }
 
   return (
     <div className='dashboard-container'>
@@ -59,17 +61,41 @@ const Dashboard = () => {
       <div className='vertical-bar2'></div>
       <div className='dashboard-topbar'>
         <div className='dashboard-heading'>Dashboard</div>
+        <Link to="/signup">
+          <button className='home-navbar-btn' onClick={() => logout()}>
+            Log out
+          </button>
+        </Link>
       </div>
-      <div className='home-divider'></div>
-      <button className='dashboard-create-btn'onClick={generateapage}>create note</button>
-      <div className='home-divider'></div>
+      <div className='home-divider' />
+      <button className='dashboard-create-btn' onClick={handleGenerateNote}>
+        create note
+      </button>
+      <div className='home-divider' />
       
         <div className='dashboard-card-panel'>
           Last Created Notes
           <div className='dashboard-card-grid'>
-          {dashboardNoteList.map((item,index)=> {
+          {dashboardNoteList.map((item, index)=> {
+            let name = "Untitled";
+
+            if(item.data !== ""){
+              try {
+                name = item.data.blocks[0].data.text || "Untitled";
+                name = name.replace(/&nbsp;/g, "");
+                if(item.data.blocks.length > 1) name = name + "...";
+              } catch (err) {
+                name = "Untitled"
+              }
+            }
+
             return(
-              <Card data={item} key={index} click={clicked}/>
+              <Card 
+                key={index} 
+                data={name} 
+                onClick={() => handleNoteOpen(item.name)} 
+                onDelete={() => handleDelete(item.name)}
+                />
             )
           })}
           </div>

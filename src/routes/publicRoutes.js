@@ -16,8 +16,7 @@ const publicRoutes = (props) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const auth = UseAuthicator();
 
-
-  return !auth ? <Navigate to="/dashboard"/> : <Outlet />;
+  return auth ? <Navigate to="/dashboard"/> : <Outlet />;
 }
 
 export default publicRoutes

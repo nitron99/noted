@@ -7,24 +7,17 @@ import { useAuth } from  '../../contexts/AuthContext';
 import './styles.css';
 
 const Signup = () => {
+  const { signup } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
 
-  const {
-    currentUser, 
-    signup
-  } = useAuth();
-
   function submitHandler(e) {
     e.preventDefault()
-
     //check the condition of email and password
     //signupHanlder(email,password)
-    if(password === confirmpassword)
-    {
-      if(password.length >=  6)
-      {
+    if(password === confirmpassword){
+      if(password.length >=  6){
         signupHanlder(email,password)
       }else{
         //password short error
@@ -32,11 +25,6 @@ const Signup = () => {
     }else{
       //password don't match error
     }
-
-  }
-
-  const googlesignupHandler = () => {
-
   }
 
   const signupHanlder = (email,password) => {
@@ -63,7 +51,7 @@ const Signup = () => {
           </div>
           <div className='signup-input signup-btn-panel'>
             <button className='signup-btn createacc'>Create Account</button>
-            <button className='signup-btn googlesignup' onClick={googlesignupHandler}>Google Signup</button>
+            {/* <button className='signup-btn googlesignup'>Google Signup</button> */}
           </div>
           <Link to='/login'><u>Already have an account?</u></Link>
         </form>

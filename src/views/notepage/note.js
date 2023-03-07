@@ -14,31 +14,30 @@ const Note = () => {
     writeNote, 
     noteData, 
     olddata, 
-    setOlddata, 
-    retreiveNoteID, 
-    currentNoteID 
+    setOlddata
   } = useDB();
   const [edit, setEdit] = useState(false);
 
 
   useEffect(()=>{
     console.log(noteData)
-    if(olddata)
-    {
-      if(Object.keys(noteData).length === 0) 
-      {
-        setEdit(false)
+    if(olddata){
+      // old page
+      if(Object.keys(noteData).length === 0) {
+        setEdit(false);
       }else{
         console.log("empty");
-        setEdit(true)
+        setEdit(true);
       }
-      setOlddata(false)
-    }else{//new page
-      setEdit(true)
+      setOlddata(false);
+    }else{
+      //new page
+      setEdit(true);
     }
-  }, [noteData])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [noteData]);
 
-
+  // ==================== editor configures ======================
   const settings = { 
     tools: { 
       header: {
@@ -64,57 +63,53 @@ const Note = () => {
     data: noteData
   }
 
-  const settings2 = { 
-    tools: { 
-      header: {
-        class: Header,
-        config: {
-          placeholder: 'Enter a header',
-          levels: [2, 3, 4],
-          defaultLevel: 3
-        }
-      }
-    },
-  }
+  // const settings2 = { 
+  //   tools: { 
+  //     header: {
+  //       class: Header,
+  //       config: {
+  //         placeholder: 'Enter a header',
+  //         levels: [2, 3, 4],
+  //         defaultLevel: 3
+  //       }
+  //     }
+  //   },
+  // }
 
-  function s (){
-    save()
-  }
-  
-  if(edit && currentUser !== undefined)
-  {
+  // ------------------- initializing editor ---------------------
+  if(edit && currentUser !== undefined){
     var editor = new EditorJS(settings);   
   }
-  
-
-  var save = () => {
-    editor.save().then((outputData) => {
+    
+  const save = () => {
+    editor.save()
+      .then((outputData) => {
         console.log('Article data: ', outputData)
-        //setData(outputData)
-       // if(outputData.blocks.length !== 0) writelist(outputData)
-       //writeNote(outputData)
-       retreiveNoteID(outputData)
+        writeNote(outputData);
       }).catch((error) => {
         console.log('Saving failed: ', error)
       });
   }
-  useEffect(() => {
-    let isSubscribed = true;
-    
-    if(isSubscribed){
-      
-      editor.load(settings)
-      
-    }
-    return () => (isSubscribed = false)
-  }, [noteData]);
+
+
 
   return (
-    <div className='note-container'>
-      <div className='note-top-panel'>this is note
-      <button onClick={s}>save</button>
+    <div className='dashboard-container'>
+      <div className='vertical-bar1' />
+      <div className='vertical-bar2' />
+      <div className='dashboard-topbar'>
+        <div className='dashboard-heading'></div>
+          <button className='home-navbar-btn' onClick={save}>
+            Save
+          </button>
       </div>
-      <div id="editorjs" />
+      <div className='home-divider' />
+      <div className='note-container'>
+        <div className='note-top-panel'>
+        {/* <button onClick={save}>save</button> */}
+        </div>
+        <div id="editorjs" />
+      </div>
     </div>
   )
 }

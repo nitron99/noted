@@ -4,6 +4,8 @@
   display: flex;
   flex-direction: row;
   overflow-x: hidden;
+
+  padding-left: calc(8vw + 2px);
 }
 
 #editorjs {
@@ -17,6 +19,7 @@
 .codex-editor {
   height: 100%;
   width: 100%;
+  background-color: #fff;
 }
 
 .codex-editor__redactor {
@@ -31,7 +34,8 @@
 .ce-toolbar__content {
   position: relative;
   /* left: 100px; */
-  left: 100px;
+  left: 10px;
+  overflow: visible;
 
   float: left;
   padding-left: 0px !important;
@@ -44,7 +48,7 @@
 
   position: relative;
 
-  padding-left: 100px;
+  padding-left: 10px;
 
   display: flex;
   flex-direction: column;
