@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
+import List from  '@editorjs/list';
+import Paragraph from 'editorjs-paragraph-with-alignment';
+import Quote from '@editorjs/quote';
+import Warning from '@editorjs/warning';
+import Delimiter from '@editorjs/delimiter';
+import InlineCode from '@editorjs/inline-code';
+import SimpleImage from '@editorjs/simple-image';
+import CodeBox from '@bomdi/codebox';
 
 // contexts
 import { useDB } from '../../contexts/firebase-db';
@@ -39,15 +47,57 @@ const NotePage = () => {
 
   // ==================== editor configures ======================
   const settings = { 
-    tools: { 
+    tools: {
       header: {
         class: Header,
+        inlineToolbar : true,
         config: {
           placeholder: 'Enter a header',
           levels: [2, 3, 4],
-          defaultLevel: 3
+          defaultLevel: 3,
+          defaultAlignment: 'left'
         }
-      }
+      },
+      list: {
+        class: List,
+        inlineToolbar : true
+      },
+      paragraph: {
+        class: Paragraph,
+        inlineToolbar: true,
+      },
+      quote: {
+        class: Quote,
+        inlineToolbar: true,
+        shortcut: 'CMD+SHIFT+O',
+        config: {
+          quotePlaceholder: 'Enter a quote',
+          captionPlaceholder: 'Quote\'s author',
+        },
+      },
+      image: SimpleImage,
+      warning: {
+        class: Warning,
+        inlineToolbar: true,
+        shortcut: 'CMD+SHIFT+W',
+        config: {
+          titlePlaceholder: 'Title',
+          messagePlaceholder: 'Message',
+        },
+      },
+      delimiter: Delimiter,
+      inlineCode: {
+        class: InlineCode,
+        shortcut: 'CMD+SHIFT+M',
+      },
+      codeBox: {
+        class: CodeBox,
+        config: {
+          themeURL: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/rainbow.min.css', // Optional
+          themeName: 'nord', // Optional
+          useDefaultTheme: 'dark' // Optional. This also determines the background color of the language select drop-down
+        }
+      },
     },
     // data : {
     //   blocks: [
